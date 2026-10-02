@@ -1,99 +1,301 @@
+:root {
+  font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+  color: #eaf0ee;
+  background: #101719;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
 * {
   box-sizing: border-box;
 }
 
 body {
+  min-width: 320px;
+  min-height: 100vh;
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: #0f1117;
-  color: #ffffff;
+  background:
+    radial-gradient(ellipse at 18% 0%, rgba(33, 106, 91, 0.2), transparent 36rem),
+    linear-gradient(155deg, #152022 0%, #101719 50%, #1b2020 100%);
+}
+
+#root {
+  width: 100%;
+  max-width: none;
+  min-height: 100vh;
+  border: 0;
+  text-align: left;
+}
+
+button,
+input {
+  font: inherit;
 }
 
 .app {
   min-height: 100vh;
+  padding: 0 24px 72px;
 }
 
-header {
+.app-header {
+  width: min(100%, 900px);
+  margin: 0 auto;
+  padding: 76px 0 36px;
   text-align: center;
-  padding: 60px 20px 30px;
 }
 
-header h1 {
-  font-size: 48px;
-  margin-bottom: 10px;
+.eyebrow {
+  margin: 0 0 14px;
+  color: #83c4a8;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
 }
 
-header p {
-  color: #9ca3af;
-  font-size: 18px;
+.app-header h1 {
+  margin: 0;
+  color: #f3f5ee;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 54px;
+  font-weight: 500;
+  line-height: 1.05;
 }
 
-main {
-  width: 90%;
-  max-width: 1000px;
-  margin: auto;
+.subtitle {
+  margin-top: 14px;
+  color: #a9b5b0;
+  font-size: 15px;
+}
+
+.app-main {
+  width: min(100%, 820px);
+  margin: 0 auto;
 }
 
 .search-container {
   display: flex;
-  gap: 12px;
-  margin: 30px 0 50px;
+  gap: 10px;
+  padding: 8px;
+  border: 1px solid #364542;
+  border-radius: 8px;
+  background: rgba(12, 19, 20, 0.78);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.18);
 }
 
 .search-container input {
+  min-width: 0;
   flex: 1;
-  padding: 18px;
-  border-radius: 10px;
-  border: 1px solid #30343f;
-  background: #181b23;
-  color: white;
-  font-size: 16px;
+  padding: 12px 14px;
+  border: 0;
   outline: none;
+  background: transparent;
+  color: #f3f5ee;
+  font-size: 15px;
+}
+
+.search-container input::placeholder {
+  color: #82918c;
 }
 
 .search-container button {
-  padding: 0 28px;
-  border: none;
-  border-radius: 10px;
-  background: #ffffff;
-  color: #111111;
-  font-weight: bold;
+  min-height: 44px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 5px;
+  background: #8aca9e;
+  color: #10201a;
+  font-size: 14px;
+  font-weight: 700;
   cursor: pointer;
+  transition: background 150ms ease, opacity 150ms ease;
 }
 
-.sources h2 {
-  margin-bottom: 20px;
+.search-container button:hover:not(:disabled) {
+  background: #a1ddb3;
 }
 
-.status {
-  color: #9ca3af;
+.search-container button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.sources {
+  margin-top: 48px;
+}
+
+.sources-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.sources-heading h2 {
+  margin: 0;
+  color: #f0f3ed;
+  font-size: 19px;
+  font-weight: 600;
+}
+
+.sources-heading span {
+  color: #9ba9a3;
+  font-size: 13px;
+}
+
+.source-list {
+  display: grid;
+  gap: 9px;
 }
 
 .source-card {
-  display: flex;
-  gap: 18px;
-  padding: 22px;
-  margin-bottom: 16px;
-  border: 1px solid #292d38;
-  border-radius: 12px;
-  background: #151821;
+  overflow: hidden;
+  border: 1px solid #33413e;
+  border-radius: 6px;
+  background: rgba(21, 30, 31, 0.9);
+  transition: border-color 160ms ease, background 160ms ease;
 }
 
-.source-number {
-  font-size: 20px;
-  font-weight: bold;
+.source-card[open] {
+  border-color: #648a76;
+  background: #172222;
 }
 
-.source-card h3 {
-  margin-top: 0;
+.source-card summary {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) auto 16px;
+  align-items: center;
+  gap: 12px;
+  min-height: 68px;
+  padding: 12px 18px;
+  cursor: pointer;
+  list-style: none;
 }
 
-.source-card a {
-  color: #7dd3fc;
+.source-card summary::-webkit-details-marker {
+  display: none;
+}
+
+.source-card summary::after {
+  width: 8px;
+  height: 8px;
+  border-right: 1.5px solid #a9b5b0;
+  border-bottom: 1.5px solid #a9b5b0;
+  content: "";
+  transform: rotate(45deg) translateY(-2px);
+  transition: transform 160ms ease;
+}
+
+.source-card[open] summary::after {
+  transform: rotate(225deg) translate(-2px, -1px);
+}
+
+.source-index {
+  color: #83c4a8;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 17px;
+}
+
+.source-title {
+  overflow: hidden;
+  color: #e7eeea;
+  font-size: 15px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+}
+
+.expand-hint {
+  color: #86958f;
+  font-size: 12px;
+}
+
+.source-content {
+  padding: 0 24px 22px 72px;
+}
+
+.source-content a {
+  display: inline-block;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  color: #9bd7c6;
+  font-size: 13px;
+  text-decoration-color: rgba(155, 215, 198, 0.4);
+  text-underline-offset: 3px;
+}
+
+.source-content p {
+  margin: 14px 0 0;
+  color: #bdc8c2;
   font-size: 14px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
 }
 
-.source-card p {
-  color: #c5c9d3;
-  line-height: 1.6;
+.status,
+.empty-state {
+  margin: 28px 0 0;
+  color: #a9b5b0;
+  font-size: 14px;
+  text-align: center;
+}
+
+.status-error {
+  color: #f1a49b;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+@media (max-width: 560px) {
+  .app {
+    padding: 0 16px 48px;
+  }
+
+  .app-header {
+    padding: 54px 0 28px;
+  }
+
+  .app-header h1 {
+    font-size: 44px;
+  }
+
+  .search-container {
+    gap: 6px;
+  }
+
+  .search-container input {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .search-container button {
+    padding: 0 13px;
+    font-size: 13px;
+  }
+
+  .source-card summary {
+    grid-template-columns: 30px minmax(0, 1fr) 14px;
+    gap: 8px;
+    padding: 12px;
+  }
+
+  .expand-hint {
+    display: none;
+  }
+
+  .source-title {
+    font-size: 14px;
+  }
+
+  .source-content {
+    padding: 0 16px 18px 50px;
+  }
 }

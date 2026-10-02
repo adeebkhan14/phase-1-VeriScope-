@@ -1,36 +1,27 @@
 
 import express from "express";
+import { discoverUrls } from "../scraper/searchEngine.js";
+import { scrapePages } from "../scraper/scrapper.js";
 
 const router = express.Router();
 
-router.post("/", (req, res) => {
-  const { query } = req.body;
+router.post("/", async (req, res) => {
+  const query = req.body?.query?.trim();
 
-  console.log("Received query:", query);
+  if (!query) {
+    return res.status(400).json({ error: "Enter a search query." });
+  }
 
-  res.json({
-    query: query,
+  try {
+    console.log("Received query:", query);
+    const urls = await discoverUrls(query);
+    const sources = await scrapePages(urls);
 
-    sources: [
-      {
-        title: "Example Research Source",
-        url: "https://example.com",
-        content: `This is a fake research result for: "${query}"`,
-      },
-      {
-        title: "Another Example Source",
-        url: "https://example.org",
-        content:
-          "This is another fake source. Later, this will contain content scraped from the web.",
-      },
-      {
-        title: "VeriScope Test Source",
-        url: "https://example.net",
-        content:
-          "React successfully received this response from the Node.js backend.",
-      },
-    ],
-  });
+    return res.json({ query, sources });
+  } catch (error) {
+    console.error("Search failed:", error);
+    return res.status(500).json({ error: "Search failed. Please try again." });
+  }
 });
 
 export default router;
