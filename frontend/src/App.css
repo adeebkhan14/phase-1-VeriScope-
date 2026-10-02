@@ -1,0 +1,99 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0f1117;
+  color: #ffffff;
+}
+
+.app {
+  min-height: 100vh;
+}
+
+header {
+  text-align: center;
+  padding: 60px 20px 30px;
+}
+
+header h1 {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+header p {
+  color: #9ca3af;
+  font-size: 18px;
+}
+
+main {
+  width: 90%;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.search-container {
+  display: flex;
+  gap: 12px;
+  margin: 30px 0 50px;
+}
+
+.search-container input {
+  flex: 1;
+  padding: 18px;
+  border-radius: 10px;
+  border: 1px solid #30343f;
+  background: #181b23;
+  color: white;
+  font-size: 16px;
+  outline: none;
+}
+
+.search-container button {
+  padding: 0 28px;
+  border: none;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #111111;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.sources h2 {
+  margin-bottom: 20px;
+}
+
+.status {
+  color: #9ca3af;
+}
+
+.source-card {
+  display: flex;
+  gap: 18px;
+  padding: 22px;
+  margin-bottom: 16px;
+  border: 1px solid #292d38;
+  border-radius: 12px;
+  background: #151821;
+}
+
+.source-number {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.source-card h3 {
+  margin-top: 0;
+}
+
+.source-card a {
+  color: #7dd3fc;
+  font-size: 14px;
+}
+
+.source-card p {
+  color: #c5c9d3;
+  line-height: 1.6;
+}

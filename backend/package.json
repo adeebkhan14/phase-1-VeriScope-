@@ -1,0 +1,16 @@
+{
+  "name": "veriscope-backend",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js"
+  },
+  "dependencies": {
+    "axios": "^1.20.0",
+    "cheerio": "^1.2.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "playwright": "^1.63.0"
+  }
+}
