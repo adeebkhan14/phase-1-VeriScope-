@@ -209,6 +209,12 @@ input {
   font-size: 12px;
 }
 
+.source-score {
+  color: #83c4a8;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
 .source-content {
   padding: 0 24px 22px 72px;
 }

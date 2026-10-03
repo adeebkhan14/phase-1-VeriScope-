@@ -1,18 +1,43 @@
 import { chromium } from "playwright";
+import { embedSearchResults } from "./gemini.js";
 
-export async function scrapePages(urls) {
+const MAX_SOURCES = 15;
+const SCRAPE_CONCURRENCY = 5;
+
+export async function scrapePages(urls, query) {
   const browser = await chromium.launch({
     headless: true,
   });
 
   try {
-    const results = await Promise.allSettled(
-      urls.map((item) => scrapePage(browser, item))
-    );
+    const scrapedPages = [];
+    const candidates = urls.slice(0, MAX_SOURCES);
 
-    return results
-      .filter((result) => result.status === "fulfilled")
-      .map((result) => result.value);
+    for (
+      let index = 0;
+      index < candidates.length;
+      index += SCRAPE_CONCURRENCY
+    ) {
+      const batch = candidates.slice(index, index + SCRAPE_CONCURRENCY);
+      const results = await Promise.allSettled(
+        batch.map((item) => scrapePage(browser, item))
+      );
+
+      results.forEach((result, resultIndex) => {
+        if (result.status === "fulfilled") {
+          scrapedPages.push(result.value);
+        } else {
+          console.warn(
+            `Failed to scrape ${batch[resultIndex].url}:`,
+            result.reason
+          );
+        }
+      });
+    }
+
+    return query
+      ? embedSearchResults(query, scrapedPages)
+      : scrapedPages;
   } finally {
     await browser.close();
   }
@@ -33,7 +58,9 @@ async function scrapePage(browser, item) {
 
     return {
       title: title || item.title,
+      searchTitle: item.title,
       url: item.url,
+      snippet: item.snippet,
       content: cleanText(content),
     };
   } finally {

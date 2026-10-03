@@ -4,6 +4,7 @@ import "./App.css";
 function App() {
   const [query, setQuery] = useState("");
   const [sources, setSources] = useState([]);
+  const [correctedQuery, setCorrectedQuery] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -14,6 +15,7 @@ function App() {
     setLoading(true);
     setError("");
     setSources([]);
+    setCorrectedQuery(null);
 
     try {
       const response = await fetch("http://localhost:5001/api/search", {
@@ -31,6 +33,7 @@ function App() {
       }
 
       setSources(data.sources || []);
+      setCorrectedQuery(data.correctedQuery || null);
     } catch (error) {
       console.error(error);
       setError(error.message || "Could not connect to the VeriScope backend.");
@@ -73,6 +76,11 @@ function App() {
 
         {error && <p className="status status-error" role="alert">{error}</p>}
         {loading && <p className="status" role="status">Searching and reading source pages...</p>}
+        {!loading && correctedQuery && (
+          <p className="status" role="status">
+            Spelling corrected. Showing results for <strong>{correctedQuery}</strong>.
+          </p>
+        )}
 
         {!loading && !error && sources.length > 0 && (
           <section className="sources" aria-labelledby="sources-heading">
@@ -86,7 +94,9 @@ function App() {
                   <summary>
                     <span className="source-index">{String(index + 1).padStart(2, "0")}</span>
                     <span className="source-title">{source.title || source.url}</span>
-                    <span className="expand-hint">Open source</span>
+                    <span className="source-score">
+                      {source.relevanceScore}% relevant
+                    </span>
                   </summary>
                   <div className="source-content">
                     <a href={source.url} target="_blank" rel="noreferrer">

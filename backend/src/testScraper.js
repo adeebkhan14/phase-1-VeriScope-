@@ -1,6 +1,6 @@
 import { createInterface } from "node:readline/promises";
 import { stdin as input, stdout as output } from "node:process";
-import { discoverUrls } from "./scraper/searchEngine.js";
+import { discoverSearch } from "./scraper/searchEngine.js";
 import { scrapePages } from "./scraper/scrapper.js";
 
 const rl = createInterface({ input, output });
@@ -15,12 +15,15 @@ try {
   } else {
     console.log(`\nSearching for: ${query}\n`);
 
-    const urls = await discoverUrls(query);
+    const discovery = await discoverSearch(query);
 
-    console.log(`Found ${urls.length} URLs`);
+    console.log(`Found ${discovery.urls.length} URLs`);
+    if (discovery.corrected) {
+      console.log(`Using corrected spelling: ${discovery.query}`);
+    }
     console.log("Starting scraping...\n");
 
-    const results = await scrapePages(urls);
+    const results = await scrapePages(discovery.urls, discovery.semanticQuery);
 
     console.log(`Successfully scraped ${results.length} pages\n`);
 
